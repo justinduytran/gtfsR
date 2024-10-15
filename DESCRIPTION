@@ -1,0 +1,17 @@
+Package: gtfsR
+Type: Package
+Title: gtfsR (Title Case)
+Version: 0.1.0
+Author: Justin Tran
+Maintainer: Justin Tran <justinduytran@gmail.com>
+Description: Read GTFS-Realtime feeds.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Depends: R (>= 4.1.0)
+Imports: 
+    RProtoBuf,
+Suggests:
+    httr2,
+    dplyr
+LazyData: true
+RoxygenNote: 7.3.2
