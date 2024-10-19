@@ -1,10 +1,13 @@
-#' Parse GTFS-realtime feeds
+#' Parse GTFS-Realtime feeds
 #'
-#' Takes a GTFS-realtime feed api call and translates the binary data to a \code{RProtoBuf} message.
+#' Takes a GTFS-Realtime feed api call and translates the binary data to a \code{RProtoBuf} message.
 #'
 #' @param api_request httr or httr2 GET call
 #'
 #' @returns message of type 'transit_realtime.FeedMessage'
+#'
+#' @details
+#' Currently only supports \code{httr} and \code{httr2} responses.
 #'
 #' @examples
 #' \dontrun{

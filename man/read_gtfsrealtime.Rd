@@ -2,7 +2,7 @@
 % Please edit documentation in R/read_gtfsrealtime.R
 \name{read_gtfsrealtime}
 \alias{read_gtfsrealtime}
-\title{Parse GTFS-realtime feeds}
+\title{Parse GTFS-Realtime feeds}
 \usage{
 read_gtfsrealtime(api_request)
 }
@@ -13,7 +13,10 @@ read_gtfsrealtime(api_request)
 message of type 'transit_realtime.FeedMessage'
 }
 \description{
-Takes a GTFS-realtime feed api call and translates the binary data to a \code{RProtoBuf} message.
+Takes a GTFS-Realtime feed api call and translates the binary data to a \code{RProtoBuf} message.
+}
+\details{
+Currently only supports \code{httr} and \code{httr2} responses.
 }
 \examples{
 \dontrun{

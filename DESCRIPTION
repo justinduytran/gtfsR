@@ -1,7 +1,7 @@
 Package: gtfsR
 Type: Package
 Title: gtfsR (Title Case)
-Version: 0.1.0
+Version: 0.2.0
 Author: Justin Tran
 Maintainer: Justin Tran <justinduytran@gmail.com>
 Description: Read GTFS-Realtime feeds.

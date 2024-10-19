@@ -1,6 +1,6 @@
 #' Read transit_realtime.FeedMessage field with "Many" cardinality
 #'
-#' Reads the field when its cardinality is "Many" (>1), requiring the output to be a list.
+#' Reads a field when its cardinality is "Many" (>1), requiring the output to be a list.
 #'
 #' @param message_list A list of fields containing messages with identical type / number of fields set. Example field types include "StopTimeUpdate" and "TranslatedString".
 #' @param ... A sequence of strings specifying the "path" to the desired field.
@@ -20,7 +20,7 @@
 #'
 #' # First obtain the field with "Many" cardinality
 #' # In this case a message of type 'transit_realtime.TripUpdate.StopTimeUpdate'
-#' field <- get_field(FeedMessage$entity[[1]], "trip_update", "stop_time_update")
+#' field <- FeedMessage$entity[[1]]$trip_update$stop_time_update
 #'
 #' # Then return the list of specified field for a single entity
 #' # When the desired field ("stop_sequence") is a field under "stop_time_update"
@@ -29,10 +29,11 @@
 #' get_field_list(field, "arrival", "time")
 #'
 #' # This whole sequence can be piped:
-#' get_field(FeedMessage$entity[[1]], "trip_update", "stop_time_update") |>
-#'   get_field_list(field, "arrival", "time")
+#' FeedMessage$entity[[1]]$trip_update$stop_time_update |>
+#'   get_field_list("arrival", "time")
 #' # and is the same as:
 #' FeedMessage$entity[[1]]$trip_update$stop_time_update[[i]]$arrival$time
+#' # for all i in "stop_time_update"
 #' }
 #' @export
 

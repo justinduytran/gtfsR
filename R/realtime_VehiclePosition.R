@@ -1,11 +1,11 @@
-#' Read a gtfs-realtime feed
+#' Read a GTFS-Realtime feed
 #'
-#' Processes a gtfs-realtime message into a list of data.frames. Can be Alert, TripUpdate, or VehiclePosition feed.
+#' Processes a GTFS-Realtime message into a list of data.frames. Can be an Alert, TripUpdate, or VehiclePosition feed.
 #'
 #' @param FeedMessage Message of type 'transit_realtime.FeedMessage'. Intended to be from \code{\link{read_gtfsrealtime}}.
 #'
 #' @details
-#' Creates a data.frame() defined by a preset template of \code{\link{get_field}} and \code{\link{get_field_list}}s for each feed as set out by \url{https://gtfs.org/documentation/realtime/reference/}. It iterates over \code{transit_realtime.FeedEntity} and returns them all in a separate row in a data.frame. Using the wrong function (e.g. \code{\link{realtime_VehiclePosition}} with a TripUpdate feed) will generally result in a largely empty dataset.
+#' Creates a data.frame() for each \code{transit_realtime.FeedEntity} comprising a column and corresponding value for each field that should be present. The fields vary depending on the feed type but are defined in the documentation at \url{https://gtfs.org/documentation/realtime/reference/}. Using the wrong function (e.g. \code{\link{realtime_VehiclePosition}} with a TripUpdate feed) will generally result in an almost  empty dataset.
 #'
 #' @returns List of data.frames.
 #'
@@ -47,42 +47,42 @@ realtime_VehiclePosition <- function(FeedMessage){
     data.frame(
       # Fields defined here by: https://gtfs.org/documentation/realtime/reference/#message-vehicleposition
       # TripDescriptor
-      trip_id = get_field(entity, "vehicle", "trip", "trip_id"),
-      route_id = get_field(entity, "vehicle", "trip", "route_id"),
-      direction_id = get_field(entity, "vehicle", "trip", "direction_id"), # Experimental
-      start_time = get_field(entity, "vehicle", "trip", "start_time"),
-      start_date = get_field(entity, "vehicle", "trip", "start_date"),
-      schedule_relationship = get_field(entity, "vehicle", "trip", "schedule_relationship"),
+      trip_id = entity$vehicle$trip$trip_id,
+      route_id = entity$vehicle$trip$route_id,
+      direction_id = entity$vehicle$trip$direction_id, # Experimental
+      start_time = entity$vehicle$trip$start_time,
+      start_date = entity$vehicle$trip$start_date,
+      schedule_relationship = entity$vehicle$trip$schedule_relationship,
       # VehicleDescriptor
-      vehicle_id = get_field(entity, "vehicle", "vehicle", "id"),
-      vehicle_label = get_field(entity, "vehicle", "vehicle", "label"),
-      license_plate = get_field(entity, "vehicle", "vehicle", "license_plate"),
-      wheelchair_accessible = get_field(entity, "vehicle", "vehicle", "wheelchair_accessible"),
+      vehicle_id = entity$vehicle$vehicle$id,
+      vehicle_label = entity$vehicle$vehicle$label,
+      license_plate = entity$vehicle$vehicle$license_plate,
+      wheelchair_accessible = entity$vehicle$vehicle$wheelchair_accessible,
       # Position
-      lat = get_field(entity, "vehicle", "position", "latitude"),
-      lon = get_field(entity, "vehicle", "position", "longitude"),
-      bearing = get_field(entity, "vehicle", "position", "bearing"),
-      odometer = get_field(entity, "vehicle", "position", "odometer"),
-      speed = get_field(entity, "vehicle", "position", "speed"),
+      lat = entity$vehicle$position$latitude,
+      lon = entity$vehicle$position$longitude,
+      bearing = entity$vehicle$position$bearing,
+      odometer = entity$vehicle$position$odometer,
+      speed = entity$vehicle$position$speed,
       # Other
-      current_stop_sequence = get_field(entity, "vehicle", "current_stop_sequence"),
-      stop_id = get_field(entity, "vehicle", "stop_id"),
-      current_status = get_field(entity, "vehicle", "current_status"),
-      timestamp = get_field(entity, "vehicle", "timestamp"),
-      congestion_level = get_field(entity, "vehicle", "congestion_level"),
-      occupancy_status = get_field(entity, "vehicle", "occupancy_status"), # Experimental
-      occupancy_percentage = get_field(entity, "vehicle", "occupancy_percentage"), # Experimental
+      current_stop_sequence = entity$vehicle$current_stop_sequence,
+      stop_id = entity$vehicle$stop_id,
+      current_status = entity$vehicle$current_status,
+      timestamp = entity$vehicle$timestamp,
+      congestion_level = entity$vehicle$congestion_level,
+      occupancy_status = entity$vehicle$occupancy_status, # Experimental
+      occupancy_percentage = entity$vehicle$occupancy_percentage, # Experimental
       # Carriage details # Experimental
-      carriage_details_id = get_field(entity, "vehicle", "multi_carriage_details") |>
+      carriage_details_id = entity$vehicle$multi_carriage_details |>
         get_field_list("id"),
-      carriage_details_label = get_field(entity, "vehicle", "multi_carriage_details") |>
+      carriage_details_label = entity$vehicle$multi_carriage_details |>
         get_field_list("label"),
-      carriage_details_occupancy_status = get_field(entity, "vehicle", "multi_carriage_details") |>
+      carriage_details_occupancy_status = entity$vehicle$multi_carriage_details |>
         get_field_list("occupancy_status"),
-      carriage_details_occupancy_percentage = get_field(entity, "vehicle", "multi_carriage_details") |>
+      carriage_details_occupancy_percentage = entity$vehicle$multi_carriage_details |>
         get_field_list("occupancy_percentage"),
-      carriage_details_carriage_sequence = get_field(entity, "vehicle", "multi_carriage_details") |>
-        get_field_list("carraige_sequence")
+      carriage_details_carriage_sequence = entity$vehicle$multi_carriage_details |>
+        get_field_list("carriage_sequence")
     )
   }
     field_dataframe <- lapply(entities, get_VehiclePosition_fields)

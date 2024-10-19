@@ -55,8 +55,7 @@ Alert <- realtime_Alert(FeedMessage)
 
 If the `api_url` is for a TripUpdate feed and you used
 `realtime_VehiclePosition()` the resulting data will not throw an error
-but return a largely empty dataset. So ensure you use the right
-function.
+but return a mostly empty dataset. So ensure you use the right function.
 
 It is also recommended to use `dplyr::bind_rows()` after the
 `realtime_X()` function to convert the list of data.frames into one
@@ -78,6 +77,7 @@ sunbus_cairns_message <- sunbus_cairns_apicall |>
 
 sunbus_cairns <- sunbus_cairns_message |>
   realtime_TripUpdate() |>
+  # Optional
   dplyr::bind_rows()
 
 sunbus_cairns
@@ -90,25 +90,47 @@ each feed type as specified in
 <https://gtfs.org/documentation/realtime/reference>. In some cases you
 may only want a few fields to reduce processing time. For example in a
 `VehiclePosition` feed, you may only want the latitude and longitude of
-entities. If so, you can use `get_field()` and `get_field_list()` to
-create a customised data.frame suitable to your needs, e.g.:
+the present entities. If so, you can use `get_field()` and
+`get_field_list()` to create a customised data.frame suitable to your
+needs, e.g.:
 
 ``` r
+# Assuming VehiclePosition feed
 entities <- FeedMessage$entity
 
 get_lat_lon <- function(entity){
     data.frame(
-      lat = get_field(entity, "vehicle", "position", "latitude"),
-      lon = get_field(entity, "vehicle", "position", "longitude"),
+      lat = entity$vehicle$position$latitude,
+      lon = entity$vehicle$position$latitude,
     )
 }
 lat_lon_data <- lapply(entities, get_lat_lon)
 ```
 
-`get_field(entity[[i]], "vehicle", "position", "latitude")` is
-equivalent to `FeedMessage$entity[[i]]$vehicle$position$latitude`. See
-documentation in `??gtfsR::get_field` for more details on the
-`get_field` functions.
+When a field consists of a list of values, use `get_field_list()`. For
+example in a `TripUpdate` feed, `stop_id`, `arrival` and `departure`
+times:
+
+``` r
+# Assuming TripUpdate feed
+entities <- FeedMessage$entity
+
+get_trip_stop_times <- function(entity){
+    data.frame(
+      stop_id = entity$trip_update$stop_time_update |>
+        get_field_list("stop_id"),
+      stop_arrival_time = entity$trip_update$stop_time_update |>
+        get_field_list("arrival", "time"),
+      stop_departure_time = entity$trip_update$stop_time_update |>
+        get_field_list("departure", "time"),
+    )
+}
+trip_stop_time_data <- lapply(entities, get_trip_stop_times)
+```
+
+`entity$trip_update$stop_time_update |> get_field_list("arrival", "time")`
+is the same as `entity$trip_update$stop_time_update[[i]]$arrival$time"`
+(for all i present)
 
 ## Bug reports, contributions and feedback
 

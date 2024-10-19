@@ -15,7 +15,7 @@ get_field_list(message_list, ...)
 A list of the content of the specified field corresponding to each message.
 }
 \description{
-Reads the field when its cardinality is "Many" (>1), requiring the output to be a list.
+Reads a field when its cardinality is "Many" (>1), requiring the output to be a list.
 }
 \details{
 See \url{https://gtfs.org/documentation/realtime/reference} for relevant fields with "Many" cardinality.
@@ -30,7 +30,7 @@ FeedMessage <- read_gtfsrealtime(api_call)
 
 # First obtain the field with "Many" cardinality
 # In this case a message of type 'transit_realtime.TripUpdate.StopTimeUpdate'
-field <- get_field(FeedMessage$entity[[1]], "trip_update", "stop_time_update")
+field <- FeedMessage$entity[[1]]$trip_update$stop_time_update
 
 # Then return the list of specified field for a single entity
 # When the desired field ("stop_sequence") is a field under "stop_time_update"
@@ -39,9 +39,10 @@ get_field_list(field, "stop_sequence")
 get_field_list(field, "arrival", "time")
 
 # This whole sequence can be piped:
-get_field(FeedMessage$entity[[1]], "trip_update", "stop_time_update") |>
-  get_field_list(field, "arrival", "time")
+FeedMessage$entity[[1]]$trip_update$stop_time_update |>
+  get_field_list("arrival", "time")
 # and is the same as:
 FeedMessage$entity[[1]]$trip_update$stop_time_update[[i]]$arrival$time
+# for all i in "stop_time_update"
 }
 }

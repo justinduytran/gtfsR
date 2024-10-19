@@ -5,7 +5,7 @@
 \alias{realtime_Alert}
 \alias{realtime_TripUpdate}
 \alias{realtime_VehiclePosition}
-\title{Read a gtfs-realtime feed}
+\title{Read a GTFS-Realtime feed}
 \usage{
 realtime_Alert(FeedMessage)
 
@@ -20,10 +20,10 @@ realtime_VehiclePosition(FeedMessage)
 List of data.frames.
 }
 \description{
-Processes a gtfs-realtime message into a list of data.frames. Can be Alert, TripUpdate, or VehiclePosition feed.
+Processes a GTFS-Realtime message into a list of data.frames. Can be an Alert, TripUpdate, or VehiclePosition feed.
 }
 \details{
-Creates a data.frame() defined by a preset template of \code{\link{get_field}} and \code{\link{get_field_list}}s for each feed as set out by \url{https://gtfs.org/documentation/realtime/reference/}. It iterates over \code{transit_realtime.FeedEntity} and returns them all in a separate row in a data.frame. Using the wrong function (e.g. \code{\link{realtime_VehiclePosition}} with a TripUpdate feed) will generally result in a largely empty dataset.
+Creates a data.frame() for each \code{transit_realtime.FeedEntity} comprising a column and corresponding value for each field that should be present. The fields vary depending on the feed type but are defined in the documentation at \url{https://gtfs.org/documentation/realtime/reference/}. Using the wrong function (e.g. \code{\link{realtime_VehiclePosition}} with a TripUpdate feed) will generally result in an almost  empty dataset.
 }
 \examples{
 \dontrun{
