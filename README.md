@@ -90,9 +90,8 @@ each feed type as specified in
 <https://gtfs.org/documentation/realtime/reference>. In some cases you
 may only want a few fields to reduce processing time. For example in a
 `VehiclePosition` feed, you may only want the latitude and longitude of
-the present entities. If so, you can use `get_field()` and
-`get_field_list()` to create a customised data.frame suitable to your
-needs, e.g.:
+the present entities. If so, you can create a customised data.frame
+suitable to your needs likeso:
 
 ``` r
 # Assuming VehiclePosition feed

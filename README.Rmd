@@ -82,7 +82,7 @@ sunbus_cairns
 
 **Only extracting certain fields**
 
-The `realtime_X()` functions pulls all the fields that may be present in each feed type as specified in <https://gtfs.org/documentation/realtime/reference>. In some cases you may only want a few fields to reduce processing time. For example in a `VehiclePosition` feed, you may only want the latitude and longitude of the present entities. If so, you can use `get_field()` and `get_field_list()` to create a customised data.frame suitable to your needs, e.g.:
+The `realtime_X()` functions pulls all the fields that may be present in each feed type as specified in <https://gtfs.org/documentation/realtime/reference>. In some cases you may only want a few fields to reduce processing time. For example in a `VehiclePosition` feed, you may only want the latitude and longitude of the present entities. If so, you can create a customised data.frame suitable to your needs likeso:
 
 ```{r, eval = FALSE}
 # Assuming VehiclePosition feed
