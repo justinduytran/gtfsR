@@ -26,10 +26,10 @@ jobs:
     - name: Check if gtfs-realtime.proto is updated
       run: |
         if [ ! -f ./inst/proto/gtfs-realtime.proto ] || ! cmp -s ./inst/proto/gtfs-realtime.proto ./inst/proto/gtfs-realtime_new.proto; then
-          echo "File has changed, updating..."
+          echo "gtfs-realtime.proto has changed, updating..."
           mv ./inst/proto/gtfs-realtime_new.proto ./inst/proto/gtfs-realtime.proto
           git add ./inst/proto/gtfs-realtime.proto
-          git commit -m "Update .proto"
+          git commit -m "Update gtfs-realtime.proto"
           git push
         else
           echo "File has not changed, skipping update."
