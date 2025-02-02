@@ -11,7 +11,7 @@
 
 load_gtfs_realtime_proto <- function(){
   # Find package directory and prepare proto directory
-  package_directory <- system.file(package = "gtfsR", mustWork = TRUE)
+  package_directory <- system.file(package = "gtfsrealtime", mustWork = TRUE)
   proto_directory <- file.path(package_directory, "proto")
   proto_path <- file.path(proto_directory, "gtfs-realtime.proto")
 

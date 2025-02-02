@@ -1,10 +1,10 @@
-Package: gtfsR
+Package: gtfsrealtime
 Type: Package
-Title: gtfsR (Title Case)
-Version: 0.2.0
+Title: Parsing GTFS-Realtime feeds
+Version: 0.3.0
 Author: Justin Tran
 Maintainer: Justin Tran <justinduytran@gmail.com>
-Description: Read GTFS-Realtime feeds.
+Description: Functions to parse GTFS-Realtime API calls into data.frames
 License: MIT + file LICENSE
 Encoding: UTF-8
 Depends: R (>= 4.1.0)

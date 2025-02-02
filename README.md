@@ -1,24 +1,24 @@
 
-# gtfsR
+# gtfsrealtime
 
 ## Overview
 
-gtfsR is an R package for reading General Transit Feed Specification
-Realtime (GTFS-R) data into R.
+`gtfsrealtime` is an R package for reading General Transit Feed
+Specification Realtime (GTFS-Realtime) data into R.
 
 ## Installation
 
-Install `gtfsR` with:
+Install `gtfsrealtime` with:
 
 ``` r
-remotes::install_github("justinduytran/gtfsR")
+remotes::install_github("justinduytran/gtfsrealtime")
 ```
 
 ## Usage
 
-Reading GTFS-R feeds into R requires a few steps:
+Reading GTFS-Realtime feeds into R requires a few steps:
 
-**1. Make an API call from a GTFS-R feed.**
+**1. Make an API call from a GTFS-Realtime feed.**
 
 This is not handled by this package and it is suggested to use `httr` or
 `httr2` to obtain a webserver response, e.g.:
@@ -32,11 +32,11 @@ api_call <- api_url |>
   httr2::req_perform()
 ```
 
-**2. Load the relevant GTFS-R protocol buffer file.**
+**2. Load the relevant GTFS-Realtime protocol buffer file.**
 
 `load_gtfs_realtime_proto()` automatically loads the protocol buffer
 file when the package is loaded. The package includes the required
-.proto file from the GTFS-R github.
+.proto file from the GTFS-Realtime github.
 
 **3. Read the binary data in the api_call to obtain the FeedMessage
 using `read_gtfsrealtime()`.**
@@ -53,7 +53,7 @@ TripUpdate <- realtime_TripUpdate(FeedMessage)
 Alert <- realtime_Alert(FeedMessage)
 ```
 
-If the `api_url` is for a TripUpdate feed and you used
+NOTE: if the `api_url` is for a TripUpdate feed and you used
 `realtime_VehiclePosition()` the resulting data will not throw an error
 but return a mostly empty dataset. So ensure you use the right function.
 
@@ -134,6 +134,6 @@ is the same as `entity$trip_update$stop_time_update[[i]]$arrival$time"`
 ## Bug reports, contributions and feedback
 
 Please submit a GitHub issue if you come across any bugs. I’ve tested
-the package on SydneyTrains GTFS-R feeds and on a random sample from
-<https://mobilitydatabase.org/> with no major problems (yet). Also happy
-to take suggestions for improvement.
+the package on SydneyTrains GTFS-Realtime feeds and on a random sample
+from <https://mobilitydatabase.org/> with no major problems (yet). Also
+happy to take suggestions for improvement.
