@@ -1,0 +1,40 @@
+name: Monitor GTFS-Realtime proto
+
+on:
+  schedule:
+    - cron: '0 0 * * 0'  # Runs every week (Sunday midnight)
+  workflow_dispatch:  # Allows manual triggering as well
+
+jobs:
+  sync-file:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout the current repository
+      uses: actions/checkout@v3
+
+    - name: Set up Git
+      run: |
+        git config --global user.name "GitHub Actions"
+        git config --global user.email "actions@github.com"
+
+    - name: Fetch file from GTFS repo
+      run: |
+        git clone https://github.com/google/transit.git external-repo
+        cp external-repo/gtfs-realtime/proto/gtfs-realtime.proto ./inst/proto/gtfs-realtime_new.proto
+
+    - name: Check if gtfs-realtime.proto is updated
+      run: |
+        if [ ! -f ./inst/proto/gtfs-realtime.proto ] || ! cmp -s ./inst/proto/gtfs-realtime.proto ./inst/proto/gtfs-realtime_new.proto; then
+          echo "File has changed, updating..."
+          mv ./inst/proto/gtfs-realtime_new.proto ./inst/proto/gtfs-realtime.proto
+          git add ./inst/proto/gtfs-realtime.proto
+          git commit -m "Update .proto"
+          git push
+        else
+          echo "File has not changed, skipping update."
+        fi
+
+    - name: Clean up
+      run: |
+        rm -rf external-repo
